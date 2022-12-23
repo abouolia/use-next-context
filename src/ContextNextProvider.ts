@@ -1,11 +1,13 @@
+// @ts-nocheck 
 import {
   createContext,
   createElement,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from 'react';
-import { useIsomorphicLayoutEffect } from './_utils';
+import { useIsomorphicLayoutEffect } from './utils';
 
 const createNextProvider = (ReactProvider) => {
   const ContextProvider = ({ children, value }) => {
@@ -25,7 +27,7 @@ const createNextProvider = (ReactProvider) => {
         listener({ value });
       });
     };
-    useIsomorphicLayoutEffect(() => {
+    useEffect(() => {
       valueRef.current = value;
       triggerListeners();
     }, [value]);
@@ -43,7 +45,6 @@ export const createNextContext = (defaultValue) => {
   const Context = createContext({
     value: defaultValue,
     listeners: new Set(),
-    update: (f) => f(),
   });
   Context.Provider = createNextProvider(Context.Provider);
   delete Context.Consumer;
