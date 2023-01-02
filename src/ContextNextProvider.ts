@@ -17,11 +17,7 @@ export const createNextContext = <Value>(defaultValue: Value) => {
     listeners: new Set<Listener>(),
   } as ContextNextValue<Value>);
 
-  (
-    Context as unknown as {
-      [ORIGINAL_PROVIDER]: Provider<ContextNextValue<Value>>;
-    }
-  )[ORIGINAL_PROVIDER] = Context.Provider;
+  (Context as any)[ORIGINAL_PROVIDER] = Context.Provider;
   (Context as any).Provider = createNextProvider(Context.Provider);
 
   Context.displayName = PROVIDER_NAME;
@@ -39,17 +35,9 @@ const createNextProvider = <Value>(
     children: ReactNode;
     value: Value;
   }) => {
-    const valueRef = useRef<Value>(value);
-    const contextValue = useRef<ContextNextValue<Value>>();
+    const listeners = new Set<Listener>();
+    const contextValue = useRef<ContextNextValue<Value>>({ value, listeners });
 
-    if (!contextValue.current) {
-      const listeners = new Set<Listener>();
-
-      contextValue.current = {
-        value: valueRef.current,
-        listeners: listeners,
-      };
-    }
     const triggerListeners = () => {
       if (!contextValue.current) return;
 
@@ -58,7 +46,7 @@ const createNextProvider = <Value>(
       });
     };
     useEffect(() => {
-      valueRef.current = value;
+      contextValue.current.value = value;
       triggerListeners();
     }, [value]);
 

@@ -8,7 +8,9 @@ export const useContextSelector = <Value, Output>(
   comparator: (value1: any, value2: any) => boolean = Object.is
 ): Output => {
   const contextValue = useContext<ContextNextValue<Value>>(context);
-  const [state, setState] = useState<null | Output>(null);
+
+  const initialValue = selector(contextValue.value);
+  const [state, setState] = useState<Output>(initialValue);
 
   const { listeners } = contextValue;
   const comparatorFn = comparator || Object.is;
@@ -16,9 +18,12 @@ export const useContextSelector = <Value, Output>(
   const update = ({ value }: { value: Value }) => {
     const selected = selector(value);
 
-    if (!comparatorFn(selected, state)) {
-      setState(selected);
-    }
+    setState((oldState) => {
+      if (!comparatorFn(selected, oldState)) {
+        return selected;
+      }
+      return oldState;
+    });
   };
   useIsomorphicLayoutEffect(() => {
     listeners.add(update);
