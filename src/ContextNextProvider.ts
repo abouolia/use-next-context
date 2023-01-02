@@ -1,21 +1,49 @@
-// @ts-nocheck 
 import {
   createContext,
   createElement,
-  useContext,
   useEffect,
   useRef,
-  useState,
+  Provider,
+  ReactNode,
 } from 'react';
-import { useIsomorphicLayoutEffect } from './utils';
+import { ContextNextValue, Listener } from '_types';
 
-const createNextProvider = (ReactProvider) => {
-  const ContextProvider = ({ children, value }) => {
-    const valueRef = useRef(value);
-    const contextValue = useRef();
+const PROVIDER_NAME = '@use-context-next';
+const ORIGINAL_PROVIDER = Symbol();
+
+export const createNextContext = <Value>(defaultValue: Value) => {
+  const Context = createContext<ContextNextValue<Value>>({
+    value: defaultValue,
+    listeners: new Set<Listener>(),
+  } as ContextNextValue<Value>);
+
+  (
+    Context as unknown as {
+      [ORIGINAL_PROVIDER]: Provider<ContextNextValue<Value>>;
+    }
+  )[ORIGINAL_PROVIDER] = Context.Provider;
+  (Context as any).Provider = createNextProvider(Context.Provider);
+
+  Context.displayName = PROVIDER_NAME;
+
+  return Context;
+};
+
+const createNextProvider = <Value>(
+  ReactProvider: Provider<ContextNextValue<Value>>
+) => {
+  const ContextProvider = ({
+    children,
+    value,
+  }: {
+    children: ReactNode;
+    value: Value;
+  }) => {
+    const valueRef = useRef<Value>(value);
+    const contextValue = useRef<ContextNextValue<Value>>();
 
     if (!contextValue.current) {
-      const listeners = new Set();
+      const listeners = new Set<Listener>();
 
       contextValue.current = {
         value: valueRef.current,
@@ -23,6 +51,8 @@ const createNextProvider = (ReactProvider) => {
       };
     }
     const triggerListeners = () => {
+      if (!contextValue.current) return;
+
       contextValue.current.listeners.forEach((listener) => {
         listener({ value });
       });
@@ -38,40 +68,6 @@ const createNextProvider = (ReactProvider) => {
       children
     );
   };
+  ContextProvider.displayName = PROVIDER_NAME;
   return ContextProvider;
-};
-
-export const createNextContext = (defaultValue) => {
-  const Context = createContext({
-    value: defaultValue,
-    listeners: new Set(),
-  });
-  Context.Provider = createNextProvider(Context.Provider);
-  delete Context.Consumer;
-
-  return Context;
-};
-
-export const useContextSelector = (reactContext, selector, comparator) => {
-  const contextValue = useContext(reactContext);
-  const [state, setState] = useState(null);
-
-  const { listeners } = contextValue;
-  const comparatorFn = comparator || Object.is;
-
-  const update = ({ value }) => {
-    const selected = selector(value);
-
-    if (!comparatorFn(selected, state)) {
-      setState(selected);
-    }
-  };
-  useIsomorphicLayoutEffect(() => {
-    listeners.add(update);
-    return () => {
-      listeners.delete(update);
-    };
-  }, [listeners]);
-
-  return state;
 };
