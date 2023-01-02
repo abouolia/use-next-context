@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ContextNextValue } from '_types';
+import { ContextNextValue } from './types';
 import { useIsomorphicLayoutEffect } from './utils';
 
 export const useContextSelector = <Value, Output>(

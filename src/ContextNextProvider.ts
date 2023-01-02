@@ -6,7 +6,7 @@ import {
   Provider,
   ReactNode,
 } from 'react';
-import { ContextNextValue, Listener } from '_types';
+import { ContextNextValue, Listener } from './types';
 
 const PROVIDER_NAME = '@use-context-next';
 const ORIGINAL_PROVIDER = Symbol();
