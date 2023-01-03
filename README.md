@@ -1,70 +1,43 @@
 # React Next Context
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Next Context is a performance optimized subscriber with same React Context API design.
 
-## Available Scripts
+There's a performance issue in using React Context when the `Context.Provider` value mutating all subscribers using `useContext` will re-render even if the component wasn't using that mutated value because the `useContext` retrieves a object any mutations to that object leads to create a new one with different reference and cause re-rendering for all hooks, there's no any way to select specific value in the React Context.
 
-In the project directory, you can run:
+We solved that problem by adding another hook `useContextSelector` gives us ability to split the object to values by selector, don't affect on each other when mutate them and the component will re-render just if the value of context selector is changed.
 
-### `npm start`
+## Install
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+yarn add use-context-next
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Depends on `react` as 
 
-### `npm test`
+## Usage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## FAQs
 
-### `npm run build`
+## API
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `createNextContext<Value>(defaultValue: Value)`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Creates a Context object and retrieves Context object with Provider.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Parameters:
+    - `defaultValue` any - Any default value to the context.
 
-### `npm run eject`
+- `useContextSelector<Value, Output>(context, selector, comparator)`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Retreives the context value by selector. Can only work if there's above it and only re-render if that selected value is referentially changed.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Note: You can do shallow comparison for objects values by passing _.isEqual or any equalivent function to the third param of the hook.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Parameters:
+    - `context` React.Context - The context object.
+    - `selector` (value: Value) => Output - The context value selector.
+    - `comparator`: (value1: any, value2: any) => boolean - The comparator to detarmine when the hook should re-render.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+-----
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Made by [Ahmed Bouhuolia](https://twitter.com/bouhuolia)
