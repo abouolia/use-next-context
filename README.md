@@ -12,7 +12,7 @@ We solved that problem by adding another hook `useContextSelector` gives us abil
 yarn add use-context-next
 ```
 
-Depends on `react` as 
+Do not forget to install peer dependencies.
 
 ## Usage
 
