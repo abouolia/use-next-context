@@ -25,7 +25,7 @@ Depends on `react` as
 Creates a Context object and retrieves Context object with Provider.
 
 **Parameters:**
-    - `defaultValue` any - Any default value to the context.
+    * `defaultValue` any - Any default value to the context.
 
 `useContextSelector<Value, Output>(context, selector, comparator)`
 
@@ -35,9 +35,9 @@ Note: You can do shallow comparison for objects values by passing `_.isEqual` or
 ---
 
 **Parameters:** <br />
-    - `context` React.Context - The context object. <br />
-    - `selector` (value: Value) => Output - The context value selector. </br />
-    - `comparator`: (value1: any, value2: any) => boolean - The comparator to detarmine when the hook should re-render. <br />
+    * `context` React.Context - The context object.
+    * `selector` (value: Value) => Output - The context value selector.
+    * `comparator`: (value1: any, value2: any) => boolean - The comparator to detarmine when the hook should re-render.
 
 -----
 
