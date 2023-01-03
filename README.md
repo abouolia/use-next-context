@@ -20,14 +20,14 @@ Depends on `react` as
 
 ## API
 
-- `createNextContext<Value>(defaultValue: Value)`
+`createNextContext<Value>(defaultValue: Value)`
 
 Creates a Context object and retrieves Context object with Provider.
 
 Parameters:
     - `defaultValue` any - Any default value to the context.
 
-- `useContextSelector<Value, Output>(context, selector, comparator)`
+`useContextSelector<Value, Output>(context, selector, comparator)`
 
 Retreives the context value by selector. Can only work if there's above it and only re-render if that selected value is referentially changed.
 
