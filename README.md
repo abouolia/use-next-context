@@ -35,9 +35,9 @@ Note: You can do shallow comparison for objects values by passing `_.isEqual` or
 
 --
 
-**Parameters:**
-    - `context` React.Context - The context object.
-    - `selector` (value: Value) => Output - The context value selector.
+**Parameters:**__
+    - `context` React.Context - The context object.__
+    - `selector` (value: Value) => Output - The context value selector.__
     - `comparator`: (value1: any, value2: any) => boolean - The comparator to detarmine when the hook should re-render.
 
 -----
