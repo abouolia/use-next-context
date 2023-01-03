@@ -16,7 +16,56 @@ Depends on `react` as
 
 ## Usage
 
-<script src="https://gist.github.com/abouolia/1ee096d5a4df15c992c34886b9d56b56.js"></script>
+```typescript
+import React from 'react';
+import { createNextContext, useContextSelector } from 'use-context-next';
+interface AppValue {
+  firstName: string;
+  lastName: string;
+}
+
+const defaultValue = {
+  firstName: 'Ahmed',
+  lastName: 'Bouhuolia',
+};
+
+const AppContext = createNextContext<AppValue>(defaultValue);
+
+const useFirstName = () =>
+  useContextSelector<AppValue, string>(AppContext, (value) => value.firstName);
+
+const useLastName = () =>
+  useContextSelector<AppValue, string>(AppContext, (value) => value.lastName);
+
+export default function App() {
+  return (
+    <AppContext.Provider value={defaultValue}>
+      <AppContentMemo />
+    </AppContext.Provider>
+  );
+}
+
+function AppContent() {
+  return (
+    <div>
+      <FirstName />
+      <LastName />
+    </div>
+  );
+}
+
+const AppContentMemo = React.memo(AppContent);
+
+function FirstName() {
+  const firstName = useFirstName();
+  return <span>{firstName}</span>;
+}
+
+function LastName() {
+  const lastName = useLastName();
+  return <span>{lastName}</span>;
+}
+```
 
 ## FAQs
 
