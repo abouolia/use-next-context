@@ -29,16 +29,15 @@ Creates a Context object and retrieves Context object with Provider.
 
 `useContextSelector<Value, Output>(context, selector, comparator)`
 
-Retreives the context value by selector. Can only work if there's above it and only re-render if that selected value is referentially changed.
-
+Retreives the context value by selector. Can only work if there's above it and only re-render if that selected value is referentially changed. <br />
 Note: You can do shallow comparison for objects values by passing `_.isEqual` or any equalivent function to the third param of the hook.
 
---
+---
 
 **Parameters:** <br />
-    - `context` React.Context - The context object.__
-    - `selector` (value: Value) => Output - The context value selector.__
-    - `comparator`: (value1: any, value2: any) => boolean - The comparator to detarmine when the hook should re-render.
+    - `context` React.Context - The context object. <br />
+    - `selector` (value: Value) => Output - The context value selector. </br />
+    - `comparator`: (value1: any, value2: any) => boolean - The comparator to detarmine when the hook should re-render. <br />
 
 -----
 
