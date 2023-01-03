@@ -16,6 +16,8 @@ Depends on `react` as
 
 ## Usage
 
+<script src="https://gist.github.com/abouolia/1ee096d5a4df15c992c34886b9d56b56.js"></script>
+
 ## FAQs
 
 ## API
