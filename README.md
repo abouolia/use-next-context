@@ -1,4 +1,4 @@
-# React Next Context
+# Next Context
 
 Next Context is a performance optimized subscriber with same React Context API design.
 
