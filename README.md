@@ -9,7 +9,7 @@ We solved that problem by adding another hook `useContextSelector` gives ability
 ## Install
 
 ```
-yarn add use-context-next
+yarn add use-next-context
 ```
 
 Do not forget to install peer dependencies.
