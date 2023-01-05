@@ -18,6 +18,9 @@
     "rollup-plugin-typescript2": "^0.31.2",
     "typescript": "^4.5.5"
   },
+  "peerDependencies": {
+    "react": "^16 || ^17 || ^18"
+  },
   "scripts": {
     "typecheck": "tsc",
     "build": "cross-env NODE_ENV=production tsc --noEmit --project ./tsconfig.json && rollup -c"
