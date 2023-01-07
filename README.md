@@ -1,6 +1,16 @@
-# Next Context
+# React Next Context
 
 Next Context is a performance optimized subscriber with same React Context API design.
+
+<a href="https://www.npmjs.com/package/use-next-context">
+  <img alt="npm" src="https://img.shields.io/npm/v/use-next-context">
+</a>
+
+<a href="https://www.npmjs.com/package/use-next-context">
+  <img alt="npm" src="https://img.shields.io/npm/dm/use-next-context">
+</a>
+
+-----
 
 There's a performance issue in using React Context when the value of `Context.Provider` mutating all consumers using `useContext`, will re-render even if the component wasn't use the mutated value because the `useContext` retrieves a object any mutations to that object leads to create a new one with different reference and cause re-rendering, there's no any way to select specific value in the React Context.
 
