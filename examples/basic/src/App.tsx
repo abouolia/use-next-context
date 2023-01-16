@@ -1,5 +1,5 @@
 import React from 'react';
-import { createNextContext, useContextSelector } from 'use-context-next';
+import { createNextContext, useContextSelector } from '../../../src';
 import './App.css';
 
 interface Value {

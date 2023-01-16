@@ -1,26 +1,15 @@
-import React, {
+import {
   createContext,
   createElement,
   useEffect,
   useRef,
   Provider,
   ReactNode,
-  Context,
 } from 'react';
-import { ContextNextValue, Listener } from './types';
+import { ContextNextValue, Listener, NextContext } from './types';
 
 const PROVIDER_NAME = '@use-context-next';
 const ORIGINAL_PROVIDER = Symbol();
-
-type NextContextProvider<T> = (props: {
-  children: ReactNode;
-  value: T;
-}) => React.FunctionComponentElement<React.ProviderProps<ContextNextValue<T>>>;
-
-interface NextContext<T> extends Omit<Context<T>, 'Provider'> {
-  Provider: NextContextProvider<T>;
-  ORIGINAL_PROVIDER: NextContextProvider<T>;
-}
 
 export const createNextContext = <Value>(defaultValue: Value) => {
   const Context = createContext<ContextNextValue<Value>>({
