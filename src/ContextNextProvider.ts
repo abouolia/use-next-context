@@ -1,15 +1,26 @@
-import {
+import React, {
   createContext,
   createElement,
   useEffect,
   useRef,
   Provider,
   ReactNode,
+  Context,
 } from 'react';
 import { ContextNextValue, Listener } from './types';
 
 const PROVIDER_NAME = '@use-context-next';
 const ORIGINAL_PROVIDER = Symbol();
+
+type NextContextProvider<T> = (props: {
+  children: ReactNode;
+  value: T;
+}) => React.FunctionComponentElement<React.ProviderProps<ContextNextValue<T>>>;
+
+interface NextContext<T> extends Omit<Context<T>, 'Provider'> {
+  Provider: NextContextProvider<T>;
+  ORIGINAL_PROVIDER: NextContextProvider<T>;
+}
 
 export const createNextContext = <Value>(defaultValue: Value) => {
   const Context = createContext<ContextNextValue<Value>>({
@@ -17,12 +28,14 @@ export const createNextContext = <Value>(defaultValue: Value) => {
     listeners: new Set<Listener>(),
   } as ContextNextValue<Value>);
 
-  (Context as any)[ORIGINAL_PROVIDER] = Context.Provider;
-  (Context as any).Provider = createNextProvider<Value>(Context.Provider);
+  const NextContext = Context as unknown as NextContext<Value>;
 
-  Context.displayName = PROVIDER_NAME;
+  (NextContext as any).Provider = createNextProvider<Value>(Context.Provider);
+  (NextContext as any)[ORIGINAL_PROVIDER] = Context.Provider;
 
-  return Context;
+  NextContext.displayName = PROVIDER_NAME;
+
+  return NextContext;
 };
 
 const createNextProvider = <Value>(
