@@ -18,7 +18,7 @@ export const createNextContext = <Value>(defaultValue: Value) => {
   } as ContextNextValue<Value>);
 
   (Context as any)[ORIGINAL_PROVIDER] = Context.Provider;
-  (Context as any).Provider = createNextProvider(Context.Provider);
+  (Context as any).Provider = createNextProvider<Value>(Context.Provider);
 
   Context.displayName = PROVIDER_NAME;
 
